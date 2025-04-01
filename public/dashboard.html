@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <h2><i class="fas fa-school"></i> Dashboard</h2>
+            <ul>
+                <li data-tab="personal"><i class="fas fa-user"></i> Personal Info</li>
+                <li data-tab="academics"><i class="fas fa-book"></i> Academics</li>
+                <li data-tab="fees"><i class="fas fa-money-bill"></i> Fee Info</li>
+                <li data-tab="hostel"><i class="fas fa-bed"></i> Hostel Info</li>
+                <li><button id="logout"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <div class="tab" id="personal">
+                <h2>Personal Information</h2>
+                <div id="personalInfo"></div>
+            </div>
+
+            <div class="tab" id="academics">
+                <h2>Academics</h2>
+                <div class="academic-section">
+                    <h3>Attendance</h3>
+                    <div id="attendance"></div>
+                    <h3>Exam Results</h3>
+                    <table id="resultsTable">
+                        <thead>
+                            <tr><th>Subject</th><th>Marks</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab" id="fees">
+                <h2>Fee Information</h2>
+                <div id="feeInfo"></div>
+            </div>
+
+            <div class="tab" id="hostel">
+                <h2>Hostel Information</h2>
+                <div id="hostelInfo"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
