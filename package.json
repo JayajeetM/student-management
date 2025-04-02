@@ -1,13 +1,10 @@
-"scripts": {
-  "start": "node server.js",
-  "postinstall": "npm rebuild sqlite3 --build-from-source"
-}
 {
   "name": "student-management",
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "postinstall": "npm rebuild sqlite3 --build-from-source"
   },
   "dependencies": {
     "express": "^4.18.2",
