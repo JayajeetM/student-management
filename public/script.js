@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://student-management-ec9d.onrender.com"; // ✅ REPLACE THIS WITH YOUR ACTUAL RENDER URL
+const BACKEND_URL = "https://student-management-1-eq1z.onrender.com"; // ✅ REPLACE THIS WITH YOUR ACTUAL RENDER URL
 
 // Login Page
 if (document.getElementById('loginForm')) {
