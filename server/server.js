@@ -1,10 +1,13 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const db = new sqlite3.Database('./database.db');
 
+app.use(cors()); // ✅ Enable CORS for frontend communication
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -45,8 +48,15 @@ db.serialize(() => {
         status TEXT
     )`);
 
-    // Sample data
-    db.run(`INSERT OR IGNORE INTO users (username, password) VALUES ('student1', 'pass123')`);
+    // Insert sample user with hashed password
+    const saltRounds = 10;
+    bcrypt.hash('pass123', saltRounds, (err, hash) => {
+        if (!err) {
+            db.run(`INSERT OR IGNORE INTO users (username, password) VALUES ('student1', ?)`, [hash]);
+        }
+    });
+
+    // Sample student data
     db.run(`INSERT OR IGNORE INTO students (name, age, grade, email) VALUES ('John Doe', 20, 'A', 'john@example.com')`);
     db.run(`INSERT OR IGNORE INTO attendance (student_id, percentage) VALUES (1, 95.5)`);
     db.run(`INSERT OR IGNORE INTO results (student_id, subject, marks) VALUES (1, 'Math', 85), (1, 'Science', 90)`);
@@ -54,12 +64,20 @@ db.serialize(() => {
     db.run(`INSERT OR IGNORE INTO hostel (student_id, room, building, status) VALUES (1, '101', 'A Block', 'Occupied')`);
 });
 
-// Login
+// Login API with password hashing
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, password], (err, row) => {
-        if (err || !row) return res.status(401).json({ error: 'Invalid credentials' });
-        res.json({ success: true });
+    db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+        if (err || !user) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (result) {
+                res.json({ success: true });
+            } else {
+                res.status(401).json({ error: 'Invalid credentials' });
+            }
+        });
     });
 });
 
@@ -99,7 +117,8 @@ app.get('/api/hostel', (req, res) => {
     });
 });
 
-const PORT = process.env.PORT || 3000;
+// Port Configuration for Render
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`✅ Server running on port ${PORT}`);
 });
