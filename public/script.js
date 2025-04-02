@@ -1,3 +1,5 @@
+const BACKEND_URL = "https://your-backend-url.onrender.com"; // ✅ REPLACE THIS WITH YOUR ACTUAL RENDER URL
+
 // Login Page
 if (document.getElementById('loginForm')) {
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
@@ -5,7 +7,7 @@ if (document.getElementById('loginForm')) {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        const response = await fetch('/api/login', {
+        const response = await fetch(`${BACKEND_URL}/api/login`, { // ✅ Fixed API URL
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -51,8 +53,9 @@ if (document.querySelector('.dashboard-container')) {
     loadHostelInfo();
 }
 
+// Fetch and display personal information
 async function loadPersonalInfo() {
-    const response = await fetch('/api/personal');
+    const response = await fetch(`${BACKEND_URL}/api/personal`); // ✅ Fixed API URL
     const data = await response.json();
     document.getElementById('personalInfo').innerHTML = `
         <p>Name: ${data.name}</p>
@@ -62,19 +65,21 @@ async function loadPersonalInfo() {
     `;
 }
 
+// Fetch and display academics (exam results & attendance)
 async function loadAcademics() {
-    const attendanceRes = await fetch('/api/attendance');
+    const attendanceRes = await fetch(`${BACKEND_URL}/api/attendance`); // ✅ Fixed API URL
     const attendance = await attendanceRes.json();
     document.getElementById('attendance').innerHTML = `<p>Attendance: ${attendance.percentage}%</p>`;
 
-    const resultsRes = await fetch('/api/results');
+    const resultsRes = await fetch(`${BACKEND_URL}/api/results`); // ✅ Fixed API URL
     const results = await resultsRes.json();
     const tbody = document.querySelector('#resultsTable tbody');
     tbody.innerHTML = results.map(r => `<tr><td>${r.subject}</td><td>${r.marks}</td></tr>`).join('');
 }
 
+// Fetch and display fee information
 async function loadFeeInfo() {
-    const response = await fetch('/api/fees');
+    const response = await fetch(`${BACKEND_URL}/api/fees`); // ✅ Fixed API URL
     const data = await response.json();
     document.getElementById('feeInfo').innerHTML = `
         <p>Total Fees: $${data.total}</p>
@@ -83,8 +88,9 @@ async function loadFeeInfo() {
     `;
 }
 
+// Fetch and display hostel information
 async function loadHostelInfo() {
-    const response = await fetch('/api/hostel');
+    const response = await fetch(`${BACKEND_URL}/api/hostel`); // ✅ Fixed API URL
     const data = await response.json();
     document.getElementById('hostelInfo').innerHTML = `
         <p>Room Number: ${data.room}</p>
